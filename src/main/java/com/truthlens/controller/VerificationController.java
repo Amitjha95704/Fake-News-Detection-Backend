@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/verify")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173") // Vite frontend
+//@CrossOrigin(origins = "http://localhost:5173") // Vite frontend
+@CrossOrigin(origins = "*")
 public class VerificationController {
 
     private final VerificationService verificationService;
