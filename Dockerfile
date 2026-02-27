@@ -5,8 +5,8 @@ COPY pom.xml .
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# Step 2: Java app ko run karna
-FROM openjdk:17-jdk-slim
+# Step 2: Java app ko run karna (Updated Image)
+FROM eclipse-temurin:17-jdk-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 
