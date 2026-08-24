@@ -31,4 +31,12 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedHeaders("*")
                 .allowCredentials(false);
     }
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**")
+//                .allowedOrigins("*") // allowedOriginPatterns ki jagah ye use karo
+//                .allowedMethods("*") // Saare methods (GET, POST, etc.)
+//                .allowedHeaders("*")
+//                .allowCredentials(false); // Ye extension ke liye false hi rehna chahiye
+//    }
 }

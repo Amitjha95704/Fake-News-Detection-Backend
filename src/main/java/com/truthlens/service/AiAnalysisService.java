@@ -103,7 +103,7 @@
 ////public class AiAnalysisService {
 ////
 ////    // ⚠️ IMPORTANT: Yahan apni API Key paste karo!
-////    private static final String GEMINI_API_KEY = "AIzaSyC80UkA8KJ1RlxVxc2j6_eDRH8Pq6cz64o"; 
+////    private static final String GEMINI_API_KEY = 
 //// 
 //// // Updated to use the latest stable Gemini 2.5 Flash model
 ////    private static final String GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + GEMINI_API_KEY;
@@ -179,7 +179,7 @@
 //public class AiAnalysisService {
 //
 //    // ⚠️ IMPORTANT: Yahan bas apni API key daalna bina kisi extra space ke
-//    private static final String GEMINI_API_KEY = "AIzaSyC80UkA8KJ1RlxVxc2j6_eDRH8Pq6cz64o"; 
+//    private static final String GEMINI_API_KEY = "; 
 //    
 //    // Stable URL with ?key= correctly appended
 //    private static final String GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + GEMINI_API_KEY;
@@ -240,9 +240,13 @@ package com.truthlens.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.truthlens.dto.response.EvidenceDto; 
+import com.truthlens.dto.response.EvidenceDto;
+
+
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -254,10 +258,14 @@ import java.util.Map;
 public class AiAnalysisService {
 
     // ⚠️ IMPORTANT: Yahan apni API key daalna!
-    private static final String GEMINI_API_KEY = System.getenv("GEMINI_API_KEY"); 
+	@Value("${gemini.api.key}")
+	private String geminiApiKey;
+//
     
-    private static final String GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + GEMINI_API_KEY;
-
+	String geminiUrl =
+	        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key="
+	        + geminiApiKey;
+	
     public Map<String, Object> analyzeClaim(String claim, List<EvidenceDto> evidences) throws Exception {
         try {
             StringBuilder evidenceText = new StringBuilder();
@@ -282,7 +290,7 @@ public class AiAnalysisService {
             
             HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
 
-            String response = restTemplate.postForObject(GEMINI_URL, request, String.class);
+            String response = restTemplate.postForObject(geminiUrl, request, String.class);
 
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(response);
